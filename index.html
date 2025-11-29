@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Team</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c, #4facfe, #00f2fe);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: floatParticles 20s linear infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #7f8c8d;
+        }
+
+        .profiles-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .profile-card {
+            background-color: #ecf0f1;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 300px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+            animation: slideIn 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .profile-card:nth-child(1) { animation-delay: 0.1s; }
+        .profile-card:nth-child(2) { animation-delay: 0.2s; }
+        .profile-card:nth-child(3) { animation-delay: 0.3s; }
+        .profile-card:nth-child(4) { animation-delay: 0.4s; }
+        .profile-card:nth-child(5) { animation-delay: 0.5s; }
+
+        .profile-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            filter: brightness(1.1);
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 200px;
+            background-color: #bdc3c7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .profile-img::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: translateX(-100%);
+            animation: shimmer 3s infinite;
+        }
+
+        .profile-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .profile-info {
+            padding: 20px;
+        }
+
+        .profile-name {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        .profile-role {
+            font-size: 1.1em;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+
+        .profile-bio {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 500px;
+            position: relative;
+            animation: slideUp 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #3498db;
+            transform: scale(1.2);
+        }
+
+        .facebook-btn {
+            display: inline-block;
+            background-color: #1877f2; 
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 25px; 
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1em;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .facebook-btn::before {
+            content: '📘';
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+
+        .facebook-btn:hover {
+            background-color: #166fe5; 
+            transform: scale(1.1); 
+            box-shadow: 0 5px 15px rgba(24, 119, 242, 0.4);
+        }
+
+        .facebook-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .facebook-btn:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes floatParticles {
+            0% { transform: translateY(0px) translateX(0px); }
+            33% { transform: translateY(-20px) translateX(20px); }
+            66% { transform: translateY(20px) translateX(-20px); }
+            100% { transform: translateY(0px) translateX(0px); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .profiles-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .profile-card {
+                width: 100%;
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Group 3</h1>
+            <p class="subtitle">Meet the Talented Individuals Behind our Success</p>
+        </header>
+        
+        <div class="profiles-container">
+            <!-- Profile 1 -->
+            <div class="profile-card" onclick="openModal('modal1')">
+                <div class="profile-img">
+                    <img src="Jimboy.jpg" alt="Jim Paul Duldulao">
+                </div>
+                <div class="profile-info">
+                    <h2 class="profile-name">Jim Paul Duldulao</h2>
+                    <p class="profile-role">Group Leader</p>
+                    <p class="profile-bio">Jim Paul leads our projects with precision and ensures all deadlines are met efficiently.</p>
+                </div>
+            </div>
+
+            <!-- Profile 2 -->
+            <div class="profile-card" onclick="openModal('modal2')">
+                <div class="profile-img">
+                    <img src="Mikay.jpg" alt="Mikaela Jireh Casarego">
+                </div>
+                <div class="profile-info">
+                    <h2 class="profile-name">Mikaela Jireh Casarego</h2>
+                    <p class="profile-role">Group Member</p>
+                    <p class="profile-bio">Mikaela who enjoys working with others and helping make group study sessions more productive and organized.</p>
+                </div>
+            </div>
+
+            <!-- Profile 3 -->
+            <div class="profile-card" onclick="openModal('modal3')">
+                <div class="profile-img">
+                    <img src="Erwin.jpg" alt="Erwin Yecla Jr.">
+                </div>
+                <div class="profile-info">
+                    <h2 class="profile-name">Erwin Yecla Jr.</h2>
+                    <p class="profile-role">Group Member</p>
+                    <p class="profile-bio">Erwin is motivated member who combines creativity and critical thinking to support the team.</p>
+                </div>
+            </div>
+
+            <!-- Profile 4 -->
+            <div class="profile-card" onclick="openModal('modal4')">
+                <div class="profile-img">
+                    <img src="Rai.jpg" alt="John Raizen Jardio">
+                </div>
+                <div class="profile-info">
+                    <h2 class="profile-name">John Raizen Jardio</h2>
+                    <p class="profile-role">Group Member</p>
+                    <p class="profile-bio">Raizen is on driving innovation through strategic foresight and technological agility.</p>
+                </div>
+            </div>
+
+            <!-- Profile 5 -->
+            <div class="profile-card" onclick="openModal('modal5')">
+                <div class="profile-img">
+                    <img src="Tidor.jpg" alt="Jhillian Tidor">
+                </div>
+                <div class="profile-info">
+                    <h2 class="profile-name">Jhillian Tidor</h2>
+                    <p class="profile-role">Group Member</p>
+                    <p class="profile-bio">Jhillian is Committed to learning, improving, and making every project the best it can be.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal1')">&times;</span>
+            <h2>Jim Paul Duldulao</h2>
+            <p><strong>Role:</strong> Group Leader</p>
+            <p><strong>Bio:</strong> Jim Paul leads our projects with precision and ensures all deadlines are met efficiently.</p>
+            <p><strong>Address:</strong> 412 Finding street, Barangay Di Makita, Pakihanap Nalang City</p>
+            <a href="https://www.facebook.com/privacy.check.2024" target="_blank" class="facebook-btn">Visit Facebook</a>
+        </div>
+    </div>
+
+    <div id="modal2" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal2')">&times;</span>
+            <h2>Mikaela Jireh Casarego</h2>
+            <p><strong>Role:</strong> Group Member</p>
+            <p><strong>Bio:</strong> Mikaela who enjoys working with others and helping make group study sessions more productive and organized.</p>
+            <p><strong>Address:</strong> 412 Finding street, Barangay Di Makita, Pakihanap Nalang City</p>
+            <a href="https://www.facebook.com/privacy.check.2024" target="_blank" class="facebook-btn">Visit Facebook</a>
+        </div>
+    </div>
+
+    <div id="modal3" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal3')">&times;</span>
+            <h2>Erwin Yecla Jr.</h2>
+            <p><strong>Role:</strong> Group Member</p>
+            <p><strong>Bio:</strong> Erwin is motivated member who combines creativity and critical thinking to support the team.</p>
+            <p><strong>Address:</strong> 412 Finding street, Barangay Di Makita, Pakihanap Nalang City</p>
+            <a href="https://www.facebook.com/privacy.check.2024" target="_blank" class="facebook-btn">Visit Facebook</a>
+        </div>
+    </div>
+
+    <div id="modal4" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal4')">&times;</span>
+            <h2>John Raizen Jardio</h2>
+            <p><strong>Role:</strong> Group Member</p>
+            <p><strong>Bio:</strong> Raizen is on driving innovation through strategic foresight and technological agility.</p>
+            <p><strong>Address:</strong> 412 Finding street, Barangay Di Makita, Pakihanap Nalang City</p>
+            <a href="https://www.facebook.com/privacy.check.2024" target="_blank" class="facebook-btn">Visit Facebook</a>
+        </div>
+    </div>
+
+    <div id="modal5" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal5')">&times;</span>
+            <h2>Jhillian Tidor</h2>
+            <p><strong>Role:</strong> Group Member</p>
+            <p><strong>Bio:</strong> Jhillian is Committed to learning, improving, and making every project the best it can be.</p>
+            <p><strong>Address:</strong> 412 Finding street, Barangay Di Makita, Pakihanap Nalang City</p>
+            <a href="https://www.facebook.com/privacy.check.2024" target="_blank" class="facebook-btn">Visit Facebook</a>
+        </div>
+    </div>
+
+    <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
